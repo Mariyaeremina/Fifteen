@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Fifteen
 {
-    class Game3 : Game2
+    class Game3 : Game2, IPlayable
     {
         private List<int> shiftHistory;
         private List<int> cancelHistory;

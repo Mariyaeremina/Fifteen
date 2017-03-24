@@ -89,6 +89,11 @@ namespace Fifteen
 
         public virtual void Shift(int value)
         {
+            if (value <= 0 || value > Side * Side - 1)
+            {
+                throw new ArgumentException("The value does not exist.", "value");
+            }
+
             var temp = new Position();
             var temp0 = new Position();
             temp = GetLocation(value);

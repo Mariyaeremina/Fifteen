@@ -2,11 +2,11 @@
 
 namespace Fifteen
 {
-    class Game2 : Game
+    class Game2 : Game, IPlayable
     {
         public Game2(params int[] numbers) : base(numbers) { }
 
-        public bool GameOver
+        public bool IsFinished
         {
             get
             {

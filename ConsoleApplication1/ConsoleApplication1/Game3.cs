@@ -5,7 +5,8 @@ namespace Fifteen
 {
     class Game3 : Game2
     {
-       
+        private List<int> shiftHistory;
+        private List<int> cancelHistory;
 
         public Game3(params int[] numbers) : base(numbers)
         {

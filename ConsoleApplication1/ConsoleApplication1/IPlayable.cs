@@ -8,8 +8,10 @@ namespace Fifteen
 {
     interface IPlayable
     {
+        int Side { get; }
         bool IsFinished { get; }
         void Randomize ();
         void Shift (int value);
+        int this[int x, int y] { get; set; }
     }
 }

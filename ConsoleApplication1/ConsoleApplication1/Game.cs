@@ -16,6 +16,17 @@ namespace Fifteen
             }
         }
 
+        public int this[int x, int y]
+        {
+            get
+            {
+                return Field[x, y];
+            }
+            set
+            {
+                Field[x, y] = value;
+            }
+        }
         private void check(params int[] numbers)
         {
             var size = Math.Sqrt(numbers.Length);

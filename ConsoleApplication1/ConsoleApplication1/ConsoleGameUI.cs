@@ -8,22 +8,21 @@ namespace Fifteen
 {
     class ConsoleGameUI
     {
-        public IPlayable interfaceGame;
+        private IPlayable interfaceGame;
 
-        public ConsoleGameUI (Game game)
+        public ConsoleGameUI(IPlayable game)
         {
-            interfaceGame = (IPlayable)game;
+            interfaceGame = game;
             interfaceGame.Randomize();
         }
 
-        public void WriteGameField ()
+        public void PrintField()
         {
-            var game = (Game2)interfaceGame;
-            for (int i = 0; i < game.Side; i++)
+            for (int i = 0; i < interfaceGame.Side; i++)
             {
-                for (int j = 0; j < game.Side; j++)
+                for (int j = 0; j < interfaceGame.Side; j++)
                 {
-                    Console.Write(game.Field[i, j]);
+                    Console.Write(interfaceGame[i, j]);
                     Console.Write(" ");
                 }
                 Console.WriteLine("");
@@ -43,9 +42,9 @@ namespace Fifteen
                 Console.WriteLine("Вы ввела неверное значение. Попробуйте снова.");
                 MakeMove();
             }
-            
+
             Console.Clear();
-            WriteGameField();
+            PrintField();
         }
 
     }

@@ -14,7 +14,7 @@ namespace WindowsFormsUniversity
 
         public Day()
         {
-            Lessons = new Lesson[8];
+            Lessons = new Lesson[5];
         }
     }
 }

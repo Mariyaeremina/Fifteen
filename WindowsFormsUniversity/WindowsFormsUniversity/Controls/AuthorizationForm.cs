@@ -106,15 +106,15 @@ namespace WindowsFormsUniversity
                         form.Show();
                     }
 
-                    else if (Authorization.User == "student")
+                    else if (Authorization.User == "teacher")
                     {
-                        StudentForm form = new StudentForm();
+                        GroupForm form = new GroupForm();
                         form.Show();
                     }
 
-                    else if (Authorization.User == "student")
+                    else if (Authorization.User == "admin")
                     {
-                        StudentForm form = new StudentForm();
+                        GroupForm form = new GroupForm();
                         form.Show();
                     }
                 }

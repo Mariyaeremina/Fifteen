@@ -50,9 +50,11 @@ namespace WindowsFormsUniversity
             Controls.Add(input1);
 
             input2 = new ComboBox();
+            input2.Enabled = false;
             Controls.Add(input2);
 
             input3 = new ComboBox();
+            input3.Enabled = false;
             Controls.Add(input3);
         }
         public GroupForm()
@@ -72,6 +74,22 @@ namespace WindowsFormsUniversity
                 changePosition(text3, 200, 20, (ClientSize.Width - 200) / 2, input2.Bottom + 15);
                 changePosition(input3, 200, 50, (ClientSize.Width - 200) / 2, text3.Bottom);
                 changePosition(choose, 100, 30, (ClientSize.Width - 100) / 2, input3.Bottom + 15);
+            };
+
+            input1.SelectedIndexChanged += (sender, args) =>
+            {
+                input2.Enabled = true;
+                input2.Items.Clear();
+                for (int i = 0; i < csu.Faculties.Length; i++)
+                {
+                    if (input1.Text == csu.Faculties[i].Name)
+                    {
+                        foreach (Direction d in csu.Faculties[i].Directions)
+                        {
+                            input2.Items.Add(d.Name);
+                        }
+                    }
+                }
             };
 
         }

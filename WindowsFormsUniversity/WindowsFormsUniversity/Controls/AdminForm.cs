@@ -56,7 +56,7 @@ namespace WindowsFormsUniversity
         }
         public AdminForm()
         {
-            
+            initialization();
         }
     }
 }

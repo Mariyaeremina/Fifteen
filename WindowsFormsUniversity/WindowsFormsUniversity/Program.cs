@@ -11,7 +11,7 @@ namespace WindowsFormsUniversity
 
         static void Main()
         {
-            var form = new GroupForm();
+            var form = new AuthorizationForm();
             Application.Run(form);
 
            

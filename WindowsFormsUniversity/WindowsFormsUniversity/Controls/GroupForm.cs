@@ -17,7 +17,7 @@ namespace WindowsFormsUniversity
         private Label text1;
         private Label text2;
         private Label text3;
-        private Button choose;
+        private Button button;
         private ComboBox input1;
         private ComboBox input2;
         private ComboBox input3;
@@ -38,9 +38,10 @@ namespace WindowsFormsUniversity
             text3.Text = "Выберите группу";
             Controls.Add(text3);
 
-            choose = new Button();
-            choose.Text = "Далее";
-            Controls.Add(choose);
+            button = new Button();
+            button.Text = "Далее";
+            button.Enabled = false;
+            Controls.Add(button);
 
             input1 = new ComboBox();
             foreach (Faculty f in csu.Faculties)
@@ -60,10 +61,61 @@ namespace WindowsFormsUniversity
         public GroupForm()
         {
             initialization();
+            var ptr = 0;
             MinimumSize = new Size(500, 400);
             CenterToScreen();
             Text = "Выбор группы";
+            adaptDesign();
 
+            input1.SelectedIndexChanged += (sender, args) =>
+            {
+                input2.Enabled = true;
+                input2.Items.Clear();
+                input3.Text = "";
+                input2.Text = "";
+                input3.Enabled = false;
+                button.Enabled = false;
+                
+                for (int i = 0; i < csu.Faculties.Length; i++)
+                {
+                    if (input1.Text == csu.Faculties[i].Name)
+                    {
+                        ptr = i;
+                        foreach (Direction d in csu.Faculties[i].Directions)
+                        {
+                            input2.Items.Add(d.Name);
+                        }
+                    }
+                }
+            };
+
+            input2.SelectedIndexChanged += (sender, args) =>
+            {
+                input3.Enabled = true;
+                input3.Items.Clear();
+                input3.Text = "";
+                for (int i = 0; i < csu.Faculties[ptr].Directions.Length; i++)
+                {
+                    if (input2.Text == csu.Faculties[ptr].Directions[i].Name)
+                    {
+                        foreach (Group g in csu.Faculties[ptr].Directions[i].Groups)
+                        {
+                            input3.Items.Add(g.Name);
+                        }
+                    }
+                }
+            };
+
+            input3.SelectedIndexChanged += (sender, args) => button.Enabled = true;
+            button.Click += (sender, args) =>
+            {
+                var form = new AdminForm(Scedule.CreateScedule(input3.Text));
+                form.Show();
+            };
+        }
+
+        private void adaptDesign()
+        {
             Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
             SizeChanged += (sender, args) =>
             {
@@ -73,25 +125,8 @@ namespace WindowsFormsUniversity
                 changePosition(input2, 200, 50, (ClientSize.Width - 200) / 2, text2.Bottom);
                 changePosition(text3, 200, 20, (ClientSize.Width - 200) / 2, input2.Bottom + 15);
                 changePosition(input3, 200, 50, (ClientSize.Width - 200) / 2, text3.Bottom);
-                changePosition(choose, 100, 30, (ClientSize.Width - 100) / 2, input3.Bottom + 15);
+                changePosition(button, 100, 30, (ClientSize.Width - 100) / 2, input3.Bottom + 15);
             };
-
-            input1.SelectedIndexChanged += (sender, args) =>
-            {
-                input2.Enabled = true;
-                input2.Items.Clear();
-                for (int i = 0; i < csu.Faculties.Length; i++)
-                {
-                    if (input1.Text == csu.Faculties[i].Name)
-                    {
-                        foreach (Direction d in csu.Faculties[i].Directions)
-                        {
-                            input2.Items.Add(d.Name);
-                        }
-                    }
-                }
-            };
-
         }
 
         private void changePosition(Control control, int width, int height, int x, int y)

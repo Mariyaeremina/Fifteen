@@ -12,6 +12,6 @@ namespace WindowsFormsUniversity
 {
     public partial class StudentForm : Form
     {
-        
+       
     }
 }

@@ -30,6 +30,7 @@ namespace WindowsFormsUniversity
             Controls.Add(inputLogin);
 
             inputPassword = new TextBox();
+            inputPassword.PasswordChar = '•';
             Controls.Add(inputPassword);
 
             student = new CheckBox();
@@ -60,20 +61,7 @@ namespace WindowsFormsUniversity
             MinimumSize = new Size(500, 400);
             CenterToScreen();
             Text = "Авторизация";
-            
-            Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
-            SizeChanged += (sender, args) =>
-            {
-                changePosition(login, 50, 30, (ClientSize.Width - 50) / 2, (ClientSize.Height - 250) / 2);
-                changePosition(inputLogin, 200, 50, (ClientSize.Width - 200) / 2, login.Bottom);
-                changePosition(password, login.Width, login.Height, (ClientSize.Width - login.Width) / 2, inputLogin.Bottom + 20);
-                changePosition(inputPassword, 200, 50, (ClientSize.Width - 200) / 2, password.Bottom);
-                changePosition(student, 150, 20, (ClientSize.Width - 200) / 2, inputPassword.Bottom);
-                changePosition(teacher, 150, 20, (ClientSize.Width - 200) / 2, student.Bottom);
-                changePosition(admin, 150, 20, (ClientSize.Width - 200) / 2, teacher.Bottom);
-                changePosition(exit, 50, 30, (ClientSize.Width - inputLogin.Width) / 2, admin.Bottom + 20);
-                changePosition(entry, 50, 30, (ClientSize.Width - inputLogin.Width) / 2 + 150, admin.Bottom + 20);
-            };
+            adaptDesign();
 
             student.Click += (sender, args) =>
             {
@@ -96,37 +84,76 @@ namespace WindowsFormsUniversity
                 Authorization.User = "admin";
             };
 
-            entry.Click += (sender, args) =>
+            entry.Click += (sender, args) => entryOnSystem();
+            exit.Click += (sender, args) => Close();
+        }
+
+        private void entryOnSystem()
+        {
+            try
             {
-                if (Authorization.RightAuthorize(inputLogin.Text, inputPassword.Text))
-                {
-                    if (Authorization.User == "student")
-                    {
-                        GroupForm form = new GroupForm();
-                        form.Show();
-                    }
-
-                    else if (Authorization.User == "teacher")
-                    {
-                        GroupForm form = new GroupForm();
-                        form.Show();
-                    }
-
-                    else if (Authorization.User == "admin")
-                    {
-                        GroupForm form = new GroupForm();
-                        form.Show();
-                    }
-                }
-                else
-                {
-                    var result = MessageBox.Show("Введенные данные не верны. Попробуйте еще раз.", "", MessageBoxButtons.OK);
-                }
-            };
-
-            exit.Click += (sender, args) =>
+                checkFullField();
+            }
+            catch
             {
-                Close();
+                var result = MessageBox.Show("Заполнены не все поля", "", MessageBoxButtons.OK);
+                return;
+            }
+
+            try
+            {
+                Authorization.Authorize(inputLogin.Text, inputPassword.Text);
+            }
+            catch
+            {
+                var result = MessageBox.Show("Введенные данные не верны. Попробуйте еще раз.", "", MessageBoxButtons.OK);
+                return;
+            }
+
+            chooseNextForm(Authorization.User);
+        }
+
+        private void checkFullField()
+        {
+            if (inputLogin.Text == "" || inputPassword.Text == "" || (student.Checked == false && admin.Checked == false && teacher.Checked == false))
+            {
+                throw new Exception("Some fields are not filled");
+            }
+        }
+
+        private void chooseNextForm(string user)
+        {
+            switch (user)
+            {
+                case "student":
+                    GroupForm form1 = new GroupForm();
+                    form1.Show();
+                    break;
+                case "teacher":
+                    TeacherForm form2 = new TeacherForm();
+                    form2.Show();
+                    break;
+                case "admin":
+                    GroupForm form3 = new GroupForm();
+                    form3.Show();
+                    break;
+            }
+        }
+
+        private void adaptDesign()
+        {
+            Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
+            SizeChanged += (sender, args) =>
+            {
+                changePosition(login, 50, 30, (ClientSize.Width - 50) / 2, (ClientSize.Height - 250) / 2);
+                changePosition(inputLogin, 200, 50, (ClientSize.Width - 200) / 2, login.Bottom);
+                changePosition(password, login.Width, login.Height, (ClientSize.Width - login.Width) / 2, inputLogin.Bottom + 20);
+                changePosition(inputPassword, 200, 50, (ClientSize.Width - 200) / 2, password.Bottom);
+                changePosition(student, 150, 20, (ClientSize.Width - 200) / 2, inputPassword.Bottom);
+                changePosition(teacher, 150, 20, (ClientSize.Width - 200) / 2, student.Bottom);
+                changePosition(admin, 150, 20, (ClientSize.Width - 200) / 2, teacher.Bottom);
+                changePosition(exit, 50, 30, (ClientSize.Width - inputLogin.Width) / 2, admin.Bottom + 20);
+                changePosition(entry, 50, 30, (ClientSize.Width - inputLogin.Width) / 2 + 150, admin.Bottom + 20);
             };
         }
 

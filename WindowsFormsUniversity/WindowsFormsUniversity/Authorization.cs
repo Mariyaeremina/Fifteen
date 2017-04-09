@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace WindowsFormsUniversity
 {
@@ -6,7 +7,7 @@ namespace WindowsFormsUniversity
     {
         public static string User;
 
-        public static bool RightAuthorize(string login, string password)
+        public static void Authorize(string login, string password)
         {
             using (StreamReader reader = new StreamReader(User+".txt"))
             {
@@ -16,10 +17,10 @@ namespace WindowsFormsUniversity
                     pass = reader.ReadLine();
                     if (log == login && pass == password)
                     {
-                        return true;
+                        return;
                     }
                 }
-                return false;
+                throw new Exception("User is not found");
             }
         }
     }

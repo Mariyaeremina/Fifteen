@@ -15,5 +15,13 @@ namespace WindowsFormsUniversity
         {
             Week = new Day[6];
         }
+
+        public static Scedule CreateScedule(string groupName)
+        {
+            var MyScedule = new Scedule();
+
+
+            return MyScedule;
+        }
     }
 }

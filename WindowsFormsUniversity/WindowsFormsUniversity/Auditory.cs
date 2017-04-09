@@ -11,5 +11,6 @@ namespace WindowsFormsUniversity
         public string Name;
         public int Size;
         public bool Free;
+        public string Faculty;
     }
 }
